@@ -1,4 +1,6 @@
-*.o
 .vscode/
+.git/
+
+*.o
 backup arquivos
 test.c

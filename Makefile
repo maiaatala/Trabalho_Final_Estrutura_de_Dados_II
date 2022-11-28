@@ -12,7 +12,7 @@ final:
 # @ makes the comand run silently
 
 test:
-	@$(CC) test.c ./lib/cadastro.c ./lib/str.c ./lib/lin.c -o test.o
+	@$(CC) test.c ./lib/clusterTree.c ./lib/essentials.c ./lib/list.c ./lib/sumTree.c -o test.o
 	@./test.o
 
 clean:

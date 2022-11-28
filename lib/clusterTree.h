@@ -14,13 +14,24 @@ struct ClusterNode {
 };
 
 int max(int a, int b);
+
 struct ClusterNode *newClusterNode(int clusterSize);
+
 struct ClusterNode *rgtRotate(struct ClusterNode *y);
+
 struct ClusterNode *lftRotate(struct ClusterNode *x);
+
+/* returns left-right */
 int getBalance(struct ClusterNode *N);
+
 struct ClusterNode *insert(struct ClusterNode *ClusterNode, int clusterSize);
+
 struct ClusterNode *minValueClusterNode(struct ClusterNode *ClusterNode);
+
 struct ClusterNode *deleteClusterNode(struct ClusterNode *root, int clusterSize);
+
 void preOrder(struct ClusterNode *root);
+
+void posOrder(struct ClusterNode *root);
 
 #endif

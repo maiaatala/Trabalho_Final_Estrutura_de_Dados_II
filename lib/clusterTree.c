@@ -93,14 +93,25 @@ struct ClusterNode *minValueClusterNode(struct ClusterNode *ClusterNode) {
 }
 
 struct ClusterNode *deleteClusterNode(struct ClusterNode *root, int clusterSize) {
-  if (root == NULL)
+  if (root == NULL) {
+    // tree is empty, nothing to delete
     return root;
-  if (clusterSize < root->clusterSize)
+  }
+
+  if (clusterSize < root->clusterSize) {
+    // tree is not empty, recursively search for node on the left (smaller)
     root->lft = deleteClusterNode(root->lft, clusterSize);
-  else if (clusterSize > root->clusterSize)
+  }
+
+  else if (clusterSize > root->clusterSize) {
+    // tree is not empty, recursively search for node on the right (bigger)
     root->rgt = deleteClusterNode(root->rgt, clusterSize);
+  }
+
   else {
+    // found the node to delete
     if ((root->lft == NULL) || (root->rgt == NULL)) {
+      // only 1 children or less delete
       struct ClusterNode *temp = root->lft ? root->lft : root->rgt;
       if (temp == NULL) {
         temp = root;
@@ -109,13 +120,22 @@ struct ClusterNode *deleteClusterNode(struct ClusterNode *root, int clusterSize)
         *root = *temp;
       free(temp);
     } else {
+      // the node has children, trade it with the leftmost children of the right children
       struct ClusterNode *temp = minValueClusterNode(root->rgt);
+      // ! must copy the values of temp to root
+      root->sumNodeRoot = temp->sumNodeRoot;
       root->clusterSize = temp->clusterSize;
+      // will recursively call this function to delete the leftmost children of the right.
       root->rgt = deleteClusterNode(root->rgt, temp->clusterSize);
     }
   }
-  if (root == NULL)
+
+  if (root == NULL) {
+    // delete happened and the node is null, return as is
     return root;
+  }
+
+  // delete happened with the node switching palces with any of its children, rebalance
   root->clustherHeight = 1 + max(clustherHeight(root->lft), clustherHeight(root->rgt));
   int balance = getBalance(root);
   if (balance > 1 && getBalance(root->lft) >= 0)
@@ -134,6 +154,14 @@ struct ClusterNode *deleteClusterNode(struct ClusterNode *root, int clusterSize)
 }
 
 void preOrder(struct ClusterNode *root) {
+  if (root != NULL) {
+    printf("%d ", root->clusterSize);
+    preOrder(root->lft);
+    preOrder(root->rgt);
+  }
+}
+
+void posOrder(struct ClusterNode *root) {
   if (root != NULL) {
     printf("%d ", root->clusterSize);
     preOrder(root->lft);
