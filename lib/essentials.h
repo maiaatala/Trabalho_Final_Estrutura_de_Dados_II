@@ -8,26 +8,25 @@
 #include <stdlib.h>
 
 /* All Structs */
-
-struct ClusterNode {
-  unsigned int clusterSize;
-  struct SumNode *sumNodeRoot;
-  struct ClusterNode *lft;
-  struct ClusterNode *rgt;
-  short unsigned int clustherHeight;
-};
-
-struct SumNode {
-  long unsigned int sum;
-  struct SumNode *lft;
-  struct SumNode *rgt;
-  short unsigned int sumNodeHeight;
-  struct ListNode *listRoot;
-};
-
 struct ListNode {
   struct ListNode *nxt;
   unsigned int *listArr;
+};
+
+struct SumNode {
+  struct SumNode *lft;
+  struct SumNode *rgt;
+  short unsigned int sumNodeHeight;
+  long unsigned int sum;
+  struct ListNode *listRoot;
+};
+
+struct ClusterNode {
+  struct ClusterNode *lft;
+  struct ClusterNode *rgt;
+  short unsigned int clustherHeight;
+  unsigned int clusterSize;
+  struct SumNode *sumNodeRoot;
 };
 
 /* All Enums */
@@ -66,12 +65,11 @@ static const char *error_descriptions[] = {
 /* All export functions */
 
 /* Insert all the required things */
-struct ClusterNode *dbInsert(
-    struct ClusterNode *clusterNode, unsigned int newClustersize,
-    long unsigned int newSum);
+struct ClusterNode *dbInsert(struct ClusterNode *clusterNode,
+    unsigned int newClustersize, long unsigned int newSum);
 
 /* Print all */
-//todo: Print the lists, not the sum nodes. one list per line.
+// todo: Print the lists, not the sum nodes. one list per line.
 void printInOrder(struct ClusterNode *clusterRoot);
 
 // print do main menu

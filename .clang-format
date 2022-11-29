@@ -1,7 +1,8 @@
 BasedOnStyle: LLVM
-AlignAfterOpenBracket: All
+MaxEmptyLinesToKeep: '1'
+AlignAfterOpenBracket: 'DontAlign'
 AllowAllArgumentsOnNextLine: 'true'
 AllowAllParametersOfDeclarationOnNextLine: 'true'
-AllowShortFunctionsOnASingleLine: Inline
+AllowShortFunctionsOnASingleLine: 'All'
 AllowShortIfStatementsOnASingleLine: WithoutElse
 TabWidth: '2'

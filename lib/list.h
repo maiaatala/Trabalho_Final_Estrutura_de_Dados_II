@@ -3,6 +3,10 @@
 
 #include "essentials.h"
 
+/* export functions */
+struct ListNode *push(struct ListNode *listNode, unsigned int *newNumberArr);
+
+void printAllList(struct ListNode *listRoot, unsigned int clusterSize);
 // remember to pass the size of the listArr from the cluster tree.
 
 // print all arrays in the list.

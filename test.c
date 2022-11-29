@@ -1,29 +1,42 @@
 #include "./lib/essentials.h"
 
+void clean_stdin() {
+  int c;
+  // limpa os \n e EOF do console, para que o fgets e pause funcionem
+  // corretamente
+  while ((c = getchar() != '\n' && c != EOF)) {
+  }
+}
+
 int main() {
   struct ClusterNode *root = NULL;
+  struct SumNode *wantedSumNode;
+  char op = '+';
+  unsigned int i, clusterSize, *numberArr;
+  long unsigned int sum;
 
-  root = dbInsert(root, 3, 40);
-  root = dbInsert(root, 3, 90);
-  root = dbInsert(root, 4, 55);
-  root = dbInsert(root, 7, 10);
-  root = dbInsert(root, 7, 800);
-  root = dbInsert(root, 7, 500);
-  root = dbInsert(root, 5, 35);
-  root = dbInsert(root, 5, 50);
-  root = dbInsert(root, 5, 60);
+  do {
+    printf("op:  ");
+    scanf("%c", &op);
+    if (op == '0') {
+      break;
+    }
+    printf("qntNumbers:  ");
+    scanf("%u", &clusterSize);
+    numberArr = malloc(sizeof(unsigned int) * clusterSize);
+    sum = 0;
+    for (i = 0; i < clusterSize; i++) {
+      printf("number %u:  ", i);
+      scanf("%u", &numberArr[i]);
+      sum += numberArr[i];
+    }
+    root = dbInsert(root, clusterSize, sum);
+    wantedSumNode =
+        sumSearch(clusterSearch(root, clusterSize)->sumNodeRoot, sum);
+    wantedSumNode->listRoot = push(wantedSumNode->listRoot, numberArr);
+    clean_stdin();
+  } while (True);
 
+  // printAllList(wantedSumNode->listRoot, 3);
   printInOrder(root);
-
-  // clusterTreePrintInOrder(root);
-  // printf("\n");
-  // struct ClusterNode *wantedNode = clusterSearch(root, 5);
-  // sumTreePrintInOrder(wantedNode->sumNodeRoot);
-  // printf("\n");
-  // wantedNode = clusterSearch(root, 3);
-  // sumTreePrintInOrder(wantedNode->sumNodeRoot);
-  // printf("\n");
-  // wantedNode = clusterSearch(root, 7);
-  // sumTreePrintInOrder(wantedNode->sumNodeRoot);
-  // printf("\n");
 }
