@@ -139,7 +139,7 @@ struct ClusterNode *deleteClusterNode(struct ClusterNode *root, unsigned int clu
       // the node has children, trade it with the leftmost children of the right children
       struct ClusterNode *temp = minValueClusterNode(root->rgt);
       // ! must copy the values of temp to root
-      root->sumNodeRoot = temp->sumNodeRoot;
+      *root->sumNodeRoot = *temp->sumNodeRoot;
       root->clusterSize = temp->clusterSize;
       // will recursively call this function to delete the leftmost children of the right.
       root->rgt = deleteClusterNode(root->rgt, temp->clusterSize);
