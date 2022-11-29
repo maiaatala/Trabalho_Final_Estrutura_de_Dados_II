@@ -6,7 +6,7 @@
 #include "sumTree.h"
 
 struct ClusterNode {
-  int clusterSize;
+  unsigned int clusterSize;
   struct SumNode *sumNodeRoot;
   struct ClusterNode *lft;
   struct ClusterNode *rgt;
@@ -15,23 +15,20 @@ struct ClusterNode {
 
 int max(int a, int b);
 
-struct ClusterNode *newClusterNode(int clusterSize);
+struct ClusterNode *newClusterNode(unsigned int clusterSize);
 
-struct ClusterNode *rgtRotate(struct ClusterNode *y);
-
-struct ClusterNode *lftRotate(struct ClusterNode *x);
-
-/* returns left-right */
+/* returns leftHeight -rightHeight */
 int getBalance(struct ClusterNode *N);
 
-struct ClusterNode *insert(struct ClusterNode *ClusterNode, int clusterSize);
+struct ClusterNode *insert(struct ClusterNode *ClusterNode, unsigned int clusterSize);
 
-struct ClusterNode *minValueClusterNode(struct ClusterNode *ClusterNode);
+struct ClusterNode *deleteClusterNode(struct ClusterNode *root, unsigned int clusterSize);
 
-struct ClusterNode *deleteClusterNode(struct ClusterNode *root, int clusterSize);
+void inOrder(struct ClusterNode *root);
 
-void preOrder(struct ClusterNode *root);
+int validateTree(struct ClusterNode *root);
 
-void posOrder(struct ClusterNode *root);
+// funcao de busca.
+struct ClusterNode *search(struct ClusterNode *ClusterNode, unsigned int wantedClusterSize);
 
 #endif

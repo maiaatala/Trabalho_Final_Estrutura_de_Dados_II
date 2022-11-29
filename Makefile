@@ -7,7 +7,7 @@ $(CC) = gcc
 .PHONY: clean
 # no need to write 'make final'
 final:
-	$(CC) main.c ./lib/clusterTree.c ./lib/essentials.c ./lib/list.c ./lib/sumTree.c -o main.o
+	@$(CC) main.c ./lib/clusterTree.c ./lib/essentials.c ./lib/list.c ./lib/sumTree.c -o main.o
 	@./main.o
 # @ makes the comand run silently
 

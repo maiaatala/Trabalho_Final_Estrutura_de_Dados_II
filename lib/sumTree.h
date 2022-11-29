@@ -5,11 +5,13 @@
 #include "list.h"
 
 struct SumNode {
-  int sum;
+  long unsigned int sum;
   struct SumNode *lft;
   struct SumNode *rgt;
   short int sumNodeHeight;
   struct ListNode *list;
 };
+
+// copy the tree frum the cluster. change the sumNode to ListNode. should be about the same tree
 
 #endif

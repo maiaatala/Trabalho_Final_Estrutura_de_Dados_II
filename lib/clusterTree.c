@@ -8,7 +8,13 @@ int clustherHeight(struct ClusterNode *N) {
   return N->clustherHeight;
 }
 
-struct ClusterNode *newClusterNode(int clusterSize) {
+int getBalance(struct ClusterNode *N) {
+  if (N == NULL)
+    return 0;
+  return clustherHeight(N->lft) - clustherHeight(N->rgt);
+}
+
+struct ClusterNode *newClusterNode(unsigned int clusterSize) {
   struct ClusterNode *ClusterNode = (struct ClusterNode *)malloc(sizeof(struct ClusterNode));
   ClusterNode->clusterSize = clusterSize;
   ClusterNode->lft = NULL;
@@ -40,13 +46,23 @@ struct ClusterNode *lftRotate(struct ClusterNode *x) {
   return y;
 }
 
-int getBalance(struct ClusterNode *N) {
-  if (N == NULL)
-    return 0;
-  return clustherHeight(N->lft) - clustherHeight(N->rgt);
+struct ClusterNode *search(struct ClusterNode *ClusterNode, unsigned int wantedClusterSize) {
+  if (ClusterNode == NULL) {
+    return NULL;
+  }
+
+  if (ClusterNode->clusterSize < wantedClusterSize) {
+    return search(ClusterNode->rgt, wantedClusterSize);
+  }
+
+  if (ClusterNode->clusterSize > wantedClusterSize) {
+    return search(ClusterNode->lft, wantedClusterSize);
+  }
+
+  return ClusterNode;
 }
 
-struct ClusterNode *insert(struct ClusterNode *ClusterNode, int clusterSize) {
+struct ClusterNode *insert(struct ClusterNode *ClusterNode, unsigned int clusterSize) {
   if (ClusterNode == NULL) {
     // empty node found, return new node
     return (newClusterNode(clusterSize));
@@ -92,7 +108,7 @@ struct ClusterNode *minValueClusterNode(struct ClusterNode *ClusterNode) {
   return current;
 }
 
-struct ClusterNode *deleteClusterNode(struct ClusterNode *root, int clusterSize) {
+struct ClusterNode *deleteClusterNode(struct ClusterNode *root, unsigned int clusterSize) {
   if (root == NULL) {
     // tree is empty, nothing to delete
     return root;
@@ -155,7 +171,7 @@ struct ClusterNode *deleteClusterNode(struct ClusterNode *root, int clusterSize)
 
 void preOrder(struct ClusterNode *root) {
   if (root != NULL) {
-    printf("%d ", root->clusterSize);
+    printf("%u ", root->clusterSize);
     preOrder(root->lft);
     preOrder(root->rgt);
   }
@@ -163,8 +179,44 @@ void preOrder(struct ClusterNode *root) {
 
 void posOrder(struct ClusterNode *root) {
   if (root != NULL) {
-    printf("%d ", root->clusterSize);
-    preOrder(root->lft);
-    preOrder(root->rgt);
+    posOrder(root->lft);
+    posOrder(root->rgt);
+    printf("%u ", root->clusterSize);
   }
+}
+
+void inOrder(struct ClusterNode *root) {
+  if (root != NULL) {
+    inOrder(root->lft);
+    printf("%u ", root->clusterSize);
+    inOrder(root->rgt);
+  }
+}
+
+int validateTree(struct ClusterNode *root) {
+  if (root->lft != NULL && root->rgt != NULL) {
+    printf("f:%u lc: %u rc: %u\n", root->clusterSize, root->lft->clusterSize, root->rgt->clusterSize);
+    validateTree(root->lft);
+    validateTree(root->rgt);
+  } else if (root->lft != NULL) {
+    printf("f:%u lc: %u rc: NA\n", root->clusterSize, root->lft->clusterSize);
+    validateTree(root->lft);
+  } else if (root->rgt != NULL) {
+    printf("f:%u lc: NA rc: %u\n", root->clusterSize, root->rgt->clusterSize);
+    validateTree(root->rgt);
+  }
+  // if (root->lft != NULL) {
+  //   if (root->lft->clusterSize < root->clusterSize) {
+  //     validateTree(root->lft);
+  //   } else {
+  //     printf("error in %u left child %u", root->clusterSize, root->lft->clusterSize);
+  //   }
+  // }
+  // if (root->rgt != NULL) {
+  //   if (root->rgt->clusterSize > root->clusterSize) {
+  //     validateTree(root->rgt);
+  //   } else {
+  //     printf("error in %u right child %u", root->clusterSize, root->rgt->clusterSize);
+  //   }
+  // }
 }
