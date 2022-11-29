@@ -3,11 +3,6 @@
 
 #include "essentials.h"
 
-struct ListNode {
-  struct ListNode *nxt;
-  unsigned int *listArr;
-};
-
 // remember to pass the size of the listArr from the cluster tree.
 
 // print all arrays in the list.

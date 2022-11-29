@@ -2,33 +2,19 @@
 #define CLUSTERTREE_H
 
 #include "essentials.h"
-#include "list.h"
-#include "sumTree.h"
 
-struct ClusterNode {
-  unsigned int clusterSize;
-  struct SumNode *sumNodeRoot;
-  struct ClusterNode *lft;
-  struct ClusterNode *rgt;
-  short int clustherHeight;
-};
+struct ClusterNode *clusterInsert(
+    struct ClusterNode *ClusterNode, unsigned int clusterSize);
 
-int max(int a, int b);
+struct ClusterNode *deleteClusterNode(
+    struct ClusterNode *root, unsigned int clusterSize);
 
-struct ClusterNode *newClusterNode(unsigned int clusterSize);
+void clusterTreePrintInOrder(struct ClusterNode *root);
 
-/* returns leftHeight -rightHeight */
-int getBalance(struct ClusterNode *N);
+int validateClusterTree(struct ClusterNode *root);
 
-struct ClusterNode *insert(struct ClusterNode *ClusterNode, unsigned int clusterSize);
-
-struct ClusterNode *deleteClusterNode(struct ClusterNode *root, unsigned int clusterSize);
-
-void inOrder(struct ClusterNode *root);
-
-int validateTree(struct ClusterNode *root);
-
-// funcao de busca.
-struct ClusterNode *search(struct ClusterNode *ClusterNode, unsigned int wantedClusterSize);
+/* funcao de busca. Retorna o cluster desejado.*/
+struct ClusterNode *clusterSearch(
+    struct ClusterNode *ClusterNode, unsigned int wantedClusterSize);
 
 #endif

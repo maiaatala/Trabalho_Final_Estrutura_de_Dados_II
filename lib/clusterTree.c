@@ -1,6 +1,4 @@
-#include "clusterTree.h"
-
-int max(int a, int b) { return (a > b) ? a : b; }
+#include "essentials.h"
 
 int clustherHeight(struct ClusterNode *N) {
   if (N == NULL)
@@ -8,14 +6,16 @@ int clustherHeight(struct ClusterNode *N) {
   return N->clustherHeight;
 }
 
-int getBalance(struct ClusterNode *N) {
+/* returns leftHeight -rightHeight */
+int getClusterBalance(struct ClusterNode *N) {
   if (N == NULL)
     return 0;
   return clustherHeight(N->lft) - clustherHeight(N->rgt);
 }
 
 struct ClusterNode *newClusterNode(unsigned int clusterSize) {
-  struct ClusterNode *ClusterNode = (struct ClusterNode *)malloc(sizeof(struct ClusterNode));
+  struct ClusterNode *ClusterNode =
+      (struct ClusterNode *)malloc(sizeof(struct ClusterNode));
   ClusterNode->clusterSize = clusterSize;
   ClusterNode->lft = NULL;
   ClusterNode->rgt = NULL;
@@ -24,77 +24,83 @@ struct ClusterNode *newClusterNode(unsigned int clusterSize) {
   return (ClusterNode);
 }
 
-struct ClusterNode *rgtRotate(struct ClusterNode *y) {
+struct ClusterNode *clusterRgtRotate(struct ClusterNode *y) {
   struct ClusterNode *x = y->lft;
   struct ClusterNode *T2 = x->rgt;
   x->rgt = y;
   y->lft = T2;
   y->clustherHeight = max(clustherHeight(y->lft), clustherHeight(y->rgt)) + 1;
   x->clustherHeight = max(clustherHeight(x->lft), clustherHeight(x->rgt)) + 1;
-  printf("right rotated\n");
+  // printf("right rotated\n");
   return x;
 }
 
-struct ClusterNode *lftRotate(struct ClusterNode *x) {
+struct ClusterNode *clusterLftRotate(struct ClusterNode *x) {
   struct ClusterNode *y = x->rgt;
   struct ClusterNode *T2 = y->lft;
   y->lft = x;
   x->rgt = T2;
   x->clustherHeight = max(clustherHeight(x->lft), clustherHeight(x->rgt)) + 1;
   y->clustherHeight = max(clustherHeight(y->lft), clustherHeight(y->rgt)) + 1;
-  printf("left rotated\n");
+  // printf("left rotated\n");
   return y;
 }
 
-struct ClusterNode *search(struct ClusterNode *ClusterNode, unsigned int wantedClusterSize) {
+struct ClusterNode *
+clusterSearch(struct ClusterNode *ClusterNode, unsigned int wantedClusterSize) {
   if (ClusterNode == NULL) {
     return NULL;
   }
 
   if (ClusterNode->clusterSize < wantedClusterSize) {
-    return search(ClusterNode->rgt, wantedClusterSize);
+    return clusterSearch(ClusterNode->rgt, wantedClusterSize);
   }
 
   if (ClusterNode->clusterSize > wantedClusterSize) {
-    return search(ClusterNode->lft, wantedClusterSize);
+    return clusterSearch(ClusterNode->lft, wantedClusterSize);
   }
 
   return ClusterNode;
 }
 
-struct ClusterNode *insert(struct ClusterNode *ClusterNode, unsigned int clusterSize) {
+struct ClusterNode *
+clusterInsert(struct ClusterNode *ClusterNode, unsigned int clusterSize) {
   if (ClusterNode == NULL) {
     // empty node found, return new node
     return (newClusterNode(clusterSize));
   }
   if (clusterSize < ClusterNode->clusterSize) {
-    // tree is not empty, recursivly look for place to insert to the lft (smaller)
-    ClusterNode->lft = insert(ClusterNode->lft, clusterSize);
+    // tree is not empty, recursivly look for place to insert to the lft
+    // (smaller)
+    ClusterNode->lft = clusterInsert(ClusterNode->lft, clusterSize);
   } else if (clusterSize > ClusterNode->clusterSize) {
-    // tree is not empty, recursivly look for place to insert to the rgt (bigger)
-    ClusterNode->rgt = insert(ClusterNode->rgt, clusterSize);
+    // tree is not empty, recursivly look for place to insert to the rgt
+    // (bigger)
+    ClusterNode->rgt = clusterInsert(ClusterNode->rgt, clusterSize);
   } else {
     // clusterSize already exists, return root
     return ClusterNode;
   }
 
-  // AVL balancing, happens recursivly from bottom to top in the 'tree is not empty' if.
-  ClusterNode->clustherHeight = 1 + max(clustherHeight(ClusterNode->lft), clustherHeight(ClusterNode->rgt));
-  int balance = getBalance(ClusterNode);
+  // AVL balancing, happens recursivly from bottom to top in the 'tree is not
+  // empty' if.
+  ClusterNode->clustherHeight = 1 + max(clustherHeight(ClusterNode->lft),
+                                        clustherHeight(ClusterNode->rgt));
+  int balance = getClusterBalance(ClusterNode);
   if (balance > 1 && clusterSize < ClusterNode->lft->clusterSize)
-    return rgtRotate(ClusterNode);
+    return clusterRgtRotate(ClusterNode);
 
   if (balance < -1 && clusterSize > ClusterNode->rgt->clusterSize)
-    return lftRotate(ClusterNode);
+    return clusterLftRotate(ClusterNode);
 
   if (balance > 1 && clusterSize > ClusterNode->lft->clusterSize) {
-    ClusterNode->lft = lftRotate(ClusterNode->lft);
-    return rgtRotate(ClusterNode);
+    ClusterNode->lft = clusterLftRotate(ClusterNode->lft);
+    return clusterRgtRotate(ClusterNode);
   }
 
   if (balance < -1 && clusterSize < ClusterNode->rgt->clusterSize) {
-    ClusterNode->rgt = rgtRotate(ClusterNode->rgt);
-    return lftRotate(ClusterNode);
+    ClusterNode->rgt = clusterRgtRotate(ClusterNode->rgt);
+    return clusterLftRotate(ClusterNode);
   }
   // node is all balanced and no rotation is needed
   return ClusterNode;
@@ -108,7 +114,8 @@ struct ClusterNode *minValueClusterNode(struct ClusterNode *ClusterNode) {
   return current;
 }
 
-struct ClusterNode *deleteClusterNode(struct ClusterNode *root, unsigned int clusterSize) {
+struct ClusterNode *
+deleteClusterNode(struct ClusterNode *root, unsigned int clusterSize) {
   if (root == NULL) {
     // tree is empty, nothing to delete
     return root;
@@ -136,12 +143,14 @@ struct ClusterNode *deleteClusterNode(struct ClusterNode *root, unsigned int clu
         *root = *temp;
       free(temp);
     } else {
-      // the node has children, trade it with the leftmost children of the right children
+      // the node has children, trade it with the leftmost children of the right
+      // children
       struct ClusterNode *temp = minValueClusterNode(root->rgt);
       // ! must copy the values of temp to root
       *root->sumNodeRoot = *temp->sumNodeRoot;
       root->clusterSize = temp->clusterSize;
-      // will recursively call this function to delete the leftmost children of the right.
+      // will recursively call this function to delete the leftmost children of
+      // the right.
       root->rgt = deleteClusterNode(root->rgt, temp->clusterSize);
     }
   }
@@ -151,20 +160,22 @@ struct ClusterNode *deleteClusterNode(struct ClusterNode *root, unsigned int clu
     return root;
   }
 
-  // delete happened with the node switching palces with any of its children, rebalance
-  root->clustherHeight = 1 + max(clustherHeight(root->lft), clustherHeight(root->rgt));
-  int balance = getBalance(root);
-  if (balance > 1 && getBalance(root->lft) >= 0)
-    return rgtRotate(root);
-  if (balance > 1 && getBalance(root->lft) < 0) {
-    root->lft = lftRotate(root->lft);
-    return rgtRotate(root);
+  // delete happened with the node switching palces with any of its children,
+  // rebalance
+  root->clustherHeight =
+      1 + max(clustherHeight(root->lft), clustherHeight(root->rgt));
+  int balance = getClusterBalance(root);
+  if (balance > 1 && getClusterBalance(root->lft) >= 0)
+    return clusterRgtRotate(root);
+  if (balance > 1 && getClusterBalance(root->lft) < 0) {
+    root->lft = clusterLftRotate(root->lft);
+    return clusterRgtRotate(root);
   }
-  if (balance < -1 && getBalance(root->rgt) <= 0)
-    return lftRotate(root);
-  if (balance < -1 && getBalance(root->rgt) > 0) {
-    root->rgt = rgtRotate(root->rgt);
-    return lftRotate(root);
+  if (balance < -1 && getClusterBalance(root->rgt) <= 0)
+    return clusterLftRotate(root);
+  if (balance < -1 && getClusterBalance(root->rgt) > 0) {
+    root->rgt = clusterRgtRotate(root->rgt);
+    return clusterLftRotate(root);
   }
   return root;
 }
@@ -185,38 +196,42 @@ void posOrder(struct ClusterNode *root) {
   }
 }
 
-void inOrder(struct ClusterNode *root) {
+void clusterTreePrintInOrder(struct ClusterNode *root) {
   if (root != NULL) {
-    inOrder(root->lft);
+    clusterTreePrintInOrder(root->lft);
     printf("%u ", root->clusterSize);
-    inOrder(root->rgt);
+    clusterTreePrintInOrder(root->rgt);
   }
 }
 
-int validateTree(struct ClusterNode *root) {
+int validateClusterTree(struct ClusterNode *root) {
   if (root->lft != NULL && root->rgt != NULL) {
-    printf("f:%u lc: %u rc: %u\n", root->clusterSize, root->lft->clusterSize, root->rgt->clusterSize);
-    validateTree(root->lft);
-    validateTree(root->rgt);
+    printf(
+        "f:%u lc: %u rc: %u\n", root->clusterSize, root->lft->clusterSize,
+        root->rgt->clusterSize);
+    validateClusterTree(root->lft);
+    validateClusterTree(root->rgt);
   } else if (root->lft != NULL) {
     printf("f:%u lc: %u rc: NA\n", root->clusterSize, root->lft->clusterSize);
-    validateTree(root->lft);
+    validateClusterTree(root->lft);
   } else if (root->rgt != NULL) {
     printf("f:%u lc: NA rc: %u\n", root->clusterSize, root->rgt->clusterSize);
-    validateTree(root->rgt);
+    validateClusterTree(root->rgt);
   }
   // if (root->lft != NULL) {
   //   if (root->lft->clusterSize < root->clusterSize) {
   //     validateTree(root->lft);
   //   } else {
-  //     printf("error in %u left child %u", root->clusterSize, root->lft->clusterSize);
+  //     printf("error in %u left child %u", root->clusterSize,
+  //     root->lft->clusterSize);
   //   }
   // }
   // if (root->rgt != NULL) {
   //   if (root->rgt->clusterSize > root->clusterSize) {
   //     validateTree(root->rgt);
   //   } else {
-  //     printf("error in %u right child %u", root->clusterSize, root->rgt->clusterSize);
+  //     printf("error in %u right child %u", root->clusterSize,
+  //     root->rgt->clusterSize);
   //   }
   // }
 }

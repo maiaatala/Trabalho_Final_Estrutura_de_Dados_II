@@ -2,16 +2,15 @@
 #define SUMTREE_H
 
 #include "essentials.h"
-#include "list.h"
 
-struct SumNode {
-  long unsigned int sum;
-  struct SumNode *lft;
-  struct SumNode *rgt;
-  short int sumNodeHeight;
-  struct ListNode *list;
-};
+struct SumNode *sumInsert(struct SumNode *SumNode, long unsigned int sum);
 
-// copy the tree frum the cluster. change the sumNode to ListNode. should be about the same tree
+struct SumNode *deleteSumNode(struct SumNode *root, long unsigned int sum);
+
+struct SumNode *sumSearch(struct SumNode *SumNode, long unsigned int wantedsum);
+
+void sumTreePrintInOrder(struct SumNode *root);
+
+int validateSumTree(struct SumNode *root);
 
 #endif

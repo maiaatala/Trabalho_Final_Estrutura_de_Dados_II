@@ -1,25 +1,7 @@
-Standard: Cpp11
 BasedOnStyle: LLVM
-IndentWidth: 2
-TabWidth: 2
-ColumnLimit: 0
-AccessModifierOffset: -4
-NamespaceIndentation: All
-BreakBeforeBraces: Custom
-SortIncludes: true
-MaxEmptyLinesToKeep: 1
-BraceWrapping:
-  AfterEnum: false
-  AfterStruct: false
-  AfterClass: false
-  AfterFunction: false
-  AfterControlStatement: false
-  AfterNamespace: false
-  AfterUnion: false
-  AfterExternBlock: false
-  BeforeCatch: false
-  BeforeElse: false
-
-  SplitEmptyFunction: true
-  SplitEmptyRecord: true
-  SplitEmptyNamespace: true
+AlignAfterOpenBracket: All
+AllowAllArgumentsOnNextLine: 'true'
+AllowAllParametersOfDeclarationOnNextLine: 'true'
+AllowShortFunctionsOnASingleLine: Inline
+AllowShortIfStatementsOnASingleLine: WithoutElse
+TabWidth: '2'
