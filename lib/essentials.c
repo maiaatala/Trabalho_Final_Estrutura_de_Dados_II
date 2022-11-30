@@ -52,12 +52,12 @@ void auxSumPrintInOrder(struct SumNode *sumRoot, unsigned int clusterSize) {
   }
 }
 
-void printInOrder(struct ClusterNode *clusterRoot) {
+void dbSelectInOrder(struct ClusterNode *clusterRoot) {
   if (clusterRoot != NULL) {
-    printInOrder(clusterRoot->lft);
+    dbSelectInOrder(clusterRoot->lft);
     printf("conj %u with ", clusterRoot->clusterSize);
     auxSumPrintInOrder(clusterRoot->sumNodeRoot, clusterRoot->clusterSize);
     printf("\n");
-    printInOrder(clusterRoot->rgt);
+    dbSelectInOrder(clusterRoot->rgt);
   }
 }

@@ -71,7 +71,7 @@ struct ClusterNode *dbInsert(struct ClusterNode *clusterNode,
 
 /* Print all */
 // todo: Print the lists, not the sum nodes. one list per line.
-void printInOrder(struct ClusterNode *clusterRoot);
+void dbSelectInOrder(struct ClusterNode *clusterRoot);
 
 // print do main menu
 

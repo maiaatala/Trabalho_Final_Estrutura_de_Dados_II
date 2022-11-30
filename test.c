@@ -37,7 +37,7 @@ void mainTest() {
   } while (True);
 
   // printAllList(wantedSumNode->listRoot, 3);
-  printInOrder(root);
+  dbSelectInOrder(root);
 }
 
 void variableSizes() {

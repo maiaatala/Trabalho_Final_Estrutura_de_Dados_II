@@ -15,7 +15,7 @@ int main() {
   root = dbInsert(root, 5, 50);
   root = dbInsert(root, 5, 60);
 
-  printInOrder(root);
+  dbSelectInOrder(root);
   // clusterTreePrintInOrder(root);
   // printf("\n");
   // struct ClusterNode *wantedNode = clusterSearch(root, 5);
