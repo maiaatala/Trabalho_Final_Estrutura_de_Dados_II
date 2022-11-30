@@ -5,7 +5,8 @@ int max(int a, int b) { return (a > b) ? a : b; }
 /* //todo: Printf virar fprintf */
 
 struct ClusterNode *dbInsert(struct ClusterNode *clusterNode,
-    unsigned int newClustersize, long unsigned int newSum) {
+    unsigned int newClustersize, long unsigned int newSum,
+    unsigned int *newNumberArr) {
   struct ClusterNode *wantedClusterNode =
       clusterSearch(clusterNode, newClustersize);
   // if cluster does not yet exist, creates it
@@ -18,10 +19,26 @@ struct ClusterNode *dbInsert(struct ClusterNode *clusterNode,
       return clusterNode;
     }
   }
+
   // add the sum in the specific cluster node
-  wantedClusterNode->sumNodeRoot =
-      sumInsert(wantedClusterNode->sumNodeRoot, newSum);
-  // todo: add the arr to the list in the sumNode.
+  struct SumNode *wantedSumNode =
+      sumSearch(wantedClusterNode->sumNodeRoot, newSum);
+  if (wantedSumNode == NULL) {
+    wantedClusterNode->sumNodeRoot =
+        sumInsert(wantedClusterNode->sumNodeRoot, newSum);
+    wantedSumNode = sumSearch(wantedClusterNode->sumNodeRoot, newSum);
+    if (wantedSumNode == NULL) {
+      printf("%s", error_descriptions[INSERT_ERROR]);
+      return clusterNode;
+    }
+  }
+
+  // insert list
+  wantedSumNode->listRoot =
+      push(wantedSumNode->listRoot, newNumberArr, newClustersize);
+
+  // Signal that the operation has ended
+  printf("%s", error_descriptions[SUCCESSFUL_OPERATION]);
   return clusterNode;
 }
 

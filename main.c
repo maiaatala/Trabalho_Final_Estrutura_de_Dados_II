@@ -1,6 +1,8 @@
 #include "./lib/essentials.h"
 
 int main() {
+  // todo: check if first number is bigger than the unsigned int number
+
   struct ClusterNode *root = NULL;
 
   root = dbInsert(root, 3, 40);

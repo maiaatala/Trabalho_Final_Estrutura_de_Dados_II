@@ -4,8 +4,7 @@ struct ListNode *newListNode(unsigned int *newNumberArr) {
   struct ListNode *newListNode =
       (struct ListNode *)malloc(sizeof(struct ListNode));
   if (newListNode == NULL) {
-    printf("\nbuy more memory or stop stress testing this program");
-    exit(1);
+    return NULL;
   }
 
   newListNode->listArr = newNumberArr;
@@ -13,19 +12,37 @@ struct ListNode *newListNode(unsigned int *newNumberArr) {
   return newListNode;
 }
 
-struct ListNode *push(struct ListNode *listNode, unsigned int *newNumberArr) {
+boolean compareListArr(unsigned int *currNumberArr, unsigned int *newNumberArr,
+    unsigned int currArrPos, unsigned int arrSize) {
+  if (currArrPos >= arrSize) {
+    return True;
+  }
+  if (currNumberArr[currArrPos] == newNumberArr[currArrPos]) {
+    currArrPos += 1;
+    return (True &&
+            compareListArr(currNumberArr, newNumberArr, currArrPos, arrSize));
+  }
+  return False;
+}
+
+struct ListNode *push(struct ListNode *listNode, unsigned int *newNumberArr,
+    unsigned int arrSize) {
   if (listNode == NULL) {
     return newListNode(newNumberArr);
   }
-  struct ListNode *newListStart = newListNode(newNumberArr);
-  newListStart->nxt = listNode;
-  return newListStart;
+
+  if (compareListArr(listNode->listArr, newNumberArr, 0, arrSize)) {
+    printf("%s", error_descriptions[INSERT_ERROR]);
+    return listNode;
+  }
+  listNode->nxt = push(listNode->nxt, newNumberArr, arrSize);
+  return listNode;
 }
 
 void printArr(unsigned int *numberArr, unsigned int clusterSize) {
   unsigned int i;
   for (i = 0; i < clusterSize; i++) {
-    printf("%u  ", numberArr[i]);
+    printf("  %u", numberArr[i]);
   }
   // printf("\n");
 }
@@ -33,7 +50,7 @@ void printArr(unsigned int *numberArr, unsigned int clusterSize) {
 void printAllList(struct ListNode *listRoot, unsigned int clusterSize) {
   if (listRoot != NULL) {
     printArr(listRoot->listArr, clusterSize);
-    printf("|  ");
+    printf(",");
     printAllList(listRoot->nxt, clusterSize);
   }
 }

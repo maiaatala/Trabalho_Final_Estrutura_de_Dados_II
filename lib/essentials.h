@@ -52,21 +52,22 @@ printf tied to the statusCode return
 ex: printf("%s", error_descriptions[functionCall(params)]);
 */
 static const char *error_descriptions[] = {
-    [SUCCESSFUL_REMOVAL] = "0",
-    [SUCCESSFUL_INSERT] = "0",
-    [SUCCESSFUL_OPERATION] = "0",
-    [NOT_FOUND] = "E",
-    [INSERT_ERROR] = "E",
-    [VALUE_ALREADY_EXISTS] = "E",
+    [SUCCESSFUL_REMOVAL] = "0\n",
+    [SUCCESSFUL_INSERT] = "0\n",
+    [SUCCESSFUL_OPERATION] = "0\n",
+    [NOT_FOUND] = "E\n",
+    [INSERT_ERROR] = "E\n",
+    [VALUE_ALREADY_EXISTS] = "E\n",
     [TREE_IS_EMPTY] = "Tree is empty and all is void.",
-    [UNKNOWN_ERROR] = "E",
+    [UNKNOWN_ERROR] = "E\n",
 };
 
 /* All export functions */
 
 /* Insert all the required things */
 struct ClusterNode *dbInsert(struct ClusterNode *clusterNode,
-    unsigned int newClustersize, long unsigned int newSum);
+    unsigned int newClustersize, long unsigned int newSum,
+    unsigned int *newNumberArr);
 
 /* Print all */
 // todo: Print the lists, not the sum nodes. one list per line.
