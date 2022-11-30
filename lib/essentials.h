@@ -8,11 +8,21 @@
 #include <stdlib.h>
 
 /* All Structs */
+
+/*
+Dynamic List of the sets
+- contains: pointer to the set array.
+*/
 struct ListNode {
   struct ListNode *nxt;
   unsigned int *listArr;
 };
 
+/*
+Secondary Tree Struct
+- key: Sum of the array
+- contains: Dynamic list of the arrays of same sum
+*/
 struct SumNode {
   struct SumNode *lft;
   struct SumNode *rgt;
@@ -21,6 +31,11 @@ struct SumNode {
   struct ListNode *listRoot;
 };
 
+/*
+Main Tree Struct
+- key: size of the arr
+- contains: Tree of sum
+*/
 struct ClusterNode {
   struct ClusterNode *lft;
   struct ClusterNode *rgt;
@@ -49,7 +64,7 @@ typedef enum {
 
 /*
 printf tied to the statusCode return
-ex: printf("%s", error_descriptions[functionCall(params)]);
+- printf("%s", error_descriptions[functionCall(params)]);
 */
 static const char *error_descriptions[] = {
     [SUCCESSFUL_REMOVAL] = "0\n",
@@ -64,13 +79,24 @@ static const char *error_descriptions[] = {
 
 /* All export functions */
 
-/* Insert all the required things */
+/*
+Inserts a new array in the 'db'
+requires:
+ - Main tree root pointer
+ - quantity of numbers in arr
+ - sum of the array numbers
+ - pointer o the number array
+returns:
+ - pointer to the updated Main tree root.
+*/
 struct ClusterNode *dbInsert(struct ClusterNode *clusterNode,
     unsigned int newClustersize, long unsigned int newSum,
     unsigned int *newNumberArr);
 
-/* Print all */
-// todo: Print the lists, not the sum nodes. one list per line.
+/*
+Prints all the sets in order of smallest -> bigger
+requires Main Tree root pointer.
+*/
 void dbSelectInOrder(struct ClusterNode *clusterRoot);
 
 // print do main menu

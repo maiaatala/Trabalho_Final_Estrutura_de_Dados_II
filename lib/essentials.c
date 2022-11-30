@@ -2,7 +2,9 @@
 
 int max(int a, int b) { return (a > b) ? a : b; }
 
-/* //todo: Printf virar fprintf */
+/*
+todo: Printf virar fprintf
+*/
 
 struct ClusterNode *dbInsert(struct ClusterNode *clusterNode,
     unsigned int newClustersize, long unsigned int newSum,
@@ -20,7 +22,7 @@ struct ClusterNode *dbInsert(struct ClusterNode *clusterNode,
     }
   }
 
-  // add the sum in the specific cluster node
+  // specific sum node to insert the array
   struct SumNode *wantedSumNode =
       sumSearch(wantedClusterNode->sumNodeRoot, newSum);
   if (wantedSumNode == NULL) {
@@ -42,6 +44,7 @@ struct ClusterNode *dbInsert(struct ClusterNode *clusterNode,
   return clusterNode;
 }
 
+/* Iterates through the Secondary Tree in order */
 void auxSumPrintInOrder(struct SumNode *sumRoot, unsigned int clusterSize) {
   if (sumRoot != NULL) {
     auxSumPrintInOrder(sumRoot->lft, clusterSize);
@@ -52,6 +55,7 @@ void auxSumPrintInOrder(struct SumNode *sumRoot, unsigned int clusterSize) {
   }
 }
 
+/* Iterates through the Main Tree in order */
 void dbSelectInOrder(struct ClusterNode *clusterRoot) {
   if (clusterRoot != NULL) {
     dbSelectInOrder(clusterRoot->lft);
