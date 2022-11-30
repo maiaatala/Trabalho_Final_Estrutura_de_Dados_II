@@ -28,9 +28,7 @@ boolean compareListArr(unsigned int *currNumberArr, unsigned int *newNumberArr,
 /*
 Inserts a new value in the end of the dynamic list.
 compares new arr to every array in the dynamic list to guarantee no duplicates
-? could be an ordered list to save processing power.
-! an ordered list would require way more programming logic.
-is it worth it to refactor?
+! make it ordered insert on the first element, will save time in the long run
 */
 struct ListNode *push(struct ListNode *listNode, unsigned int *newNumberArr,
     unsigned int arrSize) {
