@@ -18,6 +18,7 @@ struct ClusterNode *dbInsert(struct ClusterNode *clusterNode,
     // if cluster still doesn't exist, error has occured. exit
     if (wantedClusterNode == NULL) {
       printf("%s", error_descriptions[INSERT_ERROR]);
+      printf("%s", error_descriptions[OPERATION_END]);
       return clusterNode;
     }
   }
@@ -31,6 +32,7 @@ struct ClusterNode *dbInsert(struct ClusterNode *clusterNode,
     wantedSumNode = sumSearch(wantedClusterNode->sumNodeRoot, newSum);
     if (wantedSumNode == NULL) {
       printf("%s", error_descriptions[INSERT_ERROR]);
+      printf("%s", error_descriptions[OPERATION_END]);
       return clusterNode;
     }
   }

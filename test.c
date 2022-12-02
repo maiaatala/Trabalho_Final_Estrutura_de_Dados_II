@@ -20,19 +20,39 @@ void mainTest() {
   do {
     printf("op:  ");
     scanf("%c", &op);
+    switch (op) {
+    case '+':
+      printf("-- INSERT --");
+      printf("qntNumbers:  ");
+      scanf("%u", &clusterSize);
+      numberArr = malloc(sizeof(unsigned int) * clusterSize);
+      sum = 0;
+      for (i = 0; i < clusterSize; i++) {
+        printf("number %u:  ", i);
+        scanf("%u", &numberArr[i]);
+        sum += numberArr[i];
+      }
+      root = dbInsert(root, clusterSize, sum, numberArr);
+      break;
+
+    case '-':
+      printf("-- DELETE --");
+      printf("qntNumbers:  ");
+      scanf("%u", &clusterSize);
+      numberArr = malloc(sizeof(unsigned int) * clusterSize);
+      sum = 0;
+      for (i = 0; i < clusterSize; i++) {
+        printf("number %u:  ", i);
+        scanf("%u", &numberArr[i]);
+        sum += numberArr[i];
+      }
+      root = dbInsert(root, clusterSize, sum, numberArr);
+      break;
+    }
     if (op == '0') {
       break;
     }
-    printf("qntNumbers:  ");
-    scanf("%u", &clusterSize);
-    numberArr = malloc(sizeof(unsigned int) * clusterSize);
-    sum = 0;
-    for (i = 0; i < clusterSize; i++) {
-      printf("number %u:  ", i);
-      scanf("%u", &numberArr[i]);
-      sum += numberArr[i];
-    }
-    root = dbInsert(root, clusterSize, sum, numberArr);
+
     clean_stdin();
   } while (True);
 
@@ -58,7 +78,48 @@ void variableSizes() {
   printf("USHRT_MAX   :   %d\n", (unsigned short)USHRT_MAX);
 }
 
+void popTest() {
+  struct ListNode *root = NULL;
+  char op = '+';
+  unsigned int i, clusterSize = 2, *numberArr;
+  long unsigned int sum;
+
+  do {
+    printf("op:  ");
+    scanf("%c", &op);
+    if (op == '0') {
+      break;
+    }
+
+    if (op == '+') {
+      numberArr = malloc(sizeof(unsigned int) * clusterSize);
+      sum = 0;
+      for (i = 0; i < clusterSize; i++) {
+        printf("number %u:  ", i);
+        scanf("%u", &numberArr[i]);
+        sum += numberArr[i];
+      }
+      root = push(root, numberArr, clusterSize);
+    }
+    if (op == '-') {
+      numberArr = malloc(sizeof(unsigned int) * clusterSize);
+      sum = 0;
+      for (i = 0; i < clusterSize; i++) {
+        printf("number %u:  ", i);
+        scanf("%u", &numberArr[i]);
+        sum += numberArr[i];
+      }
+      root = pop(root, numberArr, clusterSize);
+    }
+    clean_stdin();
+  } while (True);
+
+  printAllList(root, clusterSize);
+  printf("\n");
+}
+
 int main() {
-  mainTest();
+  // mainTest();
+  popTest();
   // variableSizes();
 }
