@@ -48,6 +48,26 @@ void mainTest() {
       }
       root = dbInsert(root, clusterSize, sum, numberArr);
       break;
+
+    case '=':
+      printf("-- SELECT --");
+      printf("qntNumbers:  ");
+      scanf("%u", &clusterSize);
+      numberArr = malloc(sizeof(unsigned int) * clusterSize);
+      sum = 0;
+      for (i = 0; i < clusterSize; i++) {
+        printf("number %u:  ", i);
+        scanf("%u", &numberArr[i]);
+        sum += numberArr[i];
+      }
+      root = dbInsert(root, clusterSize, sum, numberArr);
+      break;
+
+    case '*':
+      printf("-- SELECT ALL --");
+      dbSelectInOrder(root);
+
+      break;
     }
     if (op == '0') {
       break;
@@ -57,7 +77,6 @@ void mainTest() {
   } while (True);
 
   // printAllList(wantedSumNode->listRoot, 3);
-  dbSelectInOrder(root);
 }
 
 void variableSizes() {

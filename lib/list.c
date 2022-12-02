@@ -7,6 +7,10 @@ typedef enum {
   COMPARATOR_ERROR
 } compareResults;
 
+/*
+todo: Printf virar fprintf
+*/
+
 struct ListNode *newListNode(
     unsigned int *newNumberArr, struct ListNode *nextNode) {
   struct ListNode *newListNode =

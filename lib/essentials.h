@@ -101,6 +101,10 @@ requires Main Tree root pointer.
 */
 void dbSelectInOrder(struct ClusterNode *clusterRoot);
 
+struct ClusterNode *dbDelete(struct ClusterNode *clusterNode,
+    unsigned int newClustersize, long unsigned int newSum,
+    unsigned int *newNumberArr);
+
 // print do main menu
 
 // switch case do main menu, +, -, =, *, <, >
