@@ -18,6 +18,7 @@ struct ClusterNode *dbInsert(struct ClusterNode *clusterNode,
     // if cluster still doesn't exist, error has occured. exit
     if (wantedClusterNode == NULL) {
       printf("%s", error_descriptions[INSERT_ERROR]);
+      printf("%s", error_descriptions[OPERATION_END]);
       return clusterNode;
     }
   }
@@ -31,6 +32,7 @@ struct ClusterNode *dbInsert(struct ClusterNode *clusterNode,
     wantedSumNode = sumSearch(wantedClusterNode->sumNodeRoot, newSum);
     if (wantedSumNode == NULL) {
       printf("%s", error_descriptions[INSERT_ERROR]);
+      printf("%s", error_descriptions[OPERATION_END]);
       return clusterNode;
     }
   }
@@ -64,4 +66,34 @@ void dbSelectInOrder(struct ClusterNode *clusterRoot) {
     printf("\n");
     dbSelectInOrder(clusterRoot->rgt);
   }
+}
+
+struct ClusterNode *dbDelete(struct ClusterNode *clusterNode,
+    unsigned int newClustersize, long unsigned int newSum,
+    unsigned int *newNumberArr) {
+  struct ClusterNode *wantedClusterNode =
+      clusterSearch(clusterNode, newClustersize);
+  // if cluster does not yet exist, we won't delete anything.
+  if (wantedClusterNode == NULL) {
+    printf("%s", error_descriptions[INSERT_ERROR]);
+    printf("%s", error_descriptions[OPERATION_END]);
+    return clusterNode;
+  }
+
+  // if sum node does not yet exist, we won't delete anything
+  struct SumNode *wantedSumNode =
+      sumSearch(wantedClusterNode->sumNodeRoot, newSum);
+  if (wantedSumNode == NULL) {
+    printf("%s", error_descriptions[INSERT_ERROR]);
+    printf("%s", error_descriptions[OPERATION_END]);
+    return clusterNode;
+  }
+
+  // attemps to delete it from the list
+  wantedSumNode->listRoot =
+      pop(wantedSumNode->listRoot, newNumberArr, newClustersize);
+
+  // Signal that the operation has ended
+  printf("%s", error_descriptions[SUCCESSFUL_OPERATION]);
+  return clusterNode;
 }

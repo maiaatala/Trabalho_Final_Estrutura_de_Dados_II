@@ -55,6 +55,7 @@ typedef enum {
   SUCCESSFUL_INSERT,
   INSERT_ERROR,
   SUCCESSFUL_OPERATION,
+  OPERATION_END,
   SUCCESSFUL_TREE_SORT,
   VALUE_ALREADY_EXISTS,
   NOT_FOUND,
@@ -70,6 +71,7 @@ static const char *error_descriptions[] = {
     [SUCCESSFUL_REMOVAL] = "0\n",
     [SUCCESSFUL_INSERT] = "0\n",
     [SUCCESSFUL_OPERATION] = "0\n",
+    [OPERATION_END] = "0\n",
     [NOT_FOUND] = "E\n",
     [INSERT_ERROR] = "E\n",
     [VALUE_ALREADY_EXISTS] = "E\n",
@@ -98,6 +100,10 @@ Prints all the sets in order of smallest -> bigger
 requires Main Tree root pointer.
 */
 void dbSelectInOrder(struct ClusterNode *clusterRoot);
+
+struct ClusterNode *dbDelete(struct ClusterNode *clusterNode,
+    unsigned int newClustersize, long unsigned int newSum,
+    unsigned int *newNumberArr);
 
 // print do main menu
 
