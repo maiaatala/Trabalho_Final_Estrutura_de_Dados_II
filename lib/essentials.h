@@ -134,7 +134,20 @@ requires:
 void dbSelect(struct ClusterNode *clusterNode, unsigned int selectedClusterSize,
     long unsigned int selectedSum, unsigned int *selectedArr, char *outFile);
 
+/*
+writes the status of the operation to the output file
+requires:
+ - string of output file
+ - status of the operation.
+*/
 void statusToFile(char *outFile, statusCode STATUS_DATA);
+
+/*
+writes the number of the array to the output file
+requires:
+ - string of output file
+ - number to write
+*/
 void numberToFile(char *outFile, unsigned int number);
 
 /* All internal functions */
