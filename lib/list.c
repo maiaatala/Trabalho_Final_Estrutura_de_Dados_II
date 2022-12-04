@@ -85,8 +85,7 @@ struct ListNode *pop(struct ListNode *listNode, unsigned int *arrToDelete,
   switch (compareListArr(listNode->listArr, arrToDelete, 0, arrSize)) {
   case EQUAL:;
     // delete node
-    struct ListNode *tempToFree = NULL;
-    tempToFree = listNode;
+    struct ListNode *tempToFree = listNode;
     listNode = listNode->nxt;
     free(tempToFree);
     break;

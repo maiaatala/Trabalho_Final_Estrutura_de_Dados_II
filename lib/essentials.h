@@ -90,7 +90,8 @@ requires:
  - Main tree root pointer
  - quantity of numbers in arr
  - sum of the array numbers
- - pointer o the number array
+ - pointer of the number array
+ - string of output file.
 returns:
  - pointer to the updated Main tree root.
 */
@@ -98,26 +99,43 @@ struct ClusterNode *dbInsert(struct ClusterNode *clusterNode,
     unsigned int newClustersize, long unsigned int newSum,
     unsigned int *newNumberArr, char *outFile);
 
+/*
+Deletes an array in the 'db'
+requires:
+ - Main tree root pointer
+ - quantity of numbers in arr
+ - sum of the array numbers
+ - pointer of the number array
+ - string of output file.
+returns:
+ - pointer to the updated Main tree root.
+*/
 struct ClusterNode *dbDelete(struct ClusterNode *clusterNode,
     unsigned int toDeleteClusterSize, long unsigned int toDeleteSum,
     unsigned int *toDeleteArr, char *outFile);
 
 /*
 Prints all the sets in order of smallest -> bigger
-requires Main Tree root pointer.
+requires:
+ - Main Tree root pointer.
+ - string of output file.
 */
 void dbSelectInOrder(struct ClusterNode *clusterRoot, char *outFile);
 
+/*
+verifies if the array exists in the 'db'
+requires:
+ - Main tree root pointer
+ - quantity of numbers in arr
+ - sum of the array numbers
+ - pointer of the number array
+ - string of output file.
+*/
 void dbSelect(struct ClusterNode *clusterNode, unsigned int selectedClusterSize,
     long unsigned int selectedSum, unsigned int *selectedArr, char *outFile);
 
 void statusToFile(char *outFile, statusCode STATUS_DATA);
 void numberToFile(char *outFile, unsigned int number);
-// print do main menu
-
-// switch case do main menu, +, -, =, *, <, >
-
-// functions to work with all the required cases
 
 /* All internal functions */
 int max(int a, int b);

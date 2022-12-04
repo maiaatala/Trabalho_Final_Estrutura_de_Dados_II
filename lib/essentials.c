@@ -2,10 +2,6 @@
 
 int max(int a, int b) { return (a > b) ? a : b; }
 
-/*
-todo: Printf virar fprintf
-*/
-
 void statusToFile(char *outFile, statusCode STATUS_DATA) {
   FILE *fp = fopen(outFile, "a");
   if (fp == NULL) {
@@ -39,8 +35,6 @@ struct ClusterNode *dbInsert(struct ClusterNode *clusterNode,
     if (wantedClusterNode == NULL) {
       statusToFile(outFile, INSERT_ERROR);
       statusToFile(outFile, OPERATION_END);
-      // printf("%s", error_descriptions[INSERT_ERROR]);
-      // printf("%s", error_descriptions[OPERATION_END]);
       return clusterNode;
     }
   }
@@ -179,9 +173,8 @@ void dbSelect(struct ClusterNode *clusterNode, unsigned int selectedClusterSize,
   // searches for the selected sum node
   struct SumNode *wantedSumNode =
       sumSearch(wantedClusterNode->sumNodeRoot, selectedSum);
-  // if sum node does not yet exist, we won't delete anything
   if (wantedSumNode == NULL) {
-    // if the sum node does not yet exist, we won't delete anything
+    // if the sum node does not yet exist, select error.
     statusToFile(outFile, INSERT_ERROR);
     statusToFile(outFile, OPERATION_END);
     return;
