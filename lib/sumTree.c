@@ -1,15 +1,13 @@
 #include "essentials.h"
 
 short unsigned int calcSumNodeHeight(struct SumNode *N) {
-  if (N == NULL)
-    return 0;
+  if (N == NULL) return 0;
   return N->sumNodeHeight;
 }
 
 /* returns leftHeight -rightHeight */
 int getSumBalance(struct SumNode *N) {
-  if (N == NULL)
-    return 0;
+  if (N == NULL) return 0;
   return calcSumNodeHeight(N->lft) - calcSumNodeHeight(N->rgt);
 }
 
@@ -49,8 +47,8 @@ struct SumNode *sumLftRotate(struct SumNode *x) {
   return y;
 }
 
-struct SumNode *
-sumSearch(struct SumNode *SumNode, long unsigned int wantedsum) {
+struct SumNode *sumSearch(
+    struct SumNode *SumNode, long unsigned int wantedsum) {
   if (SumNode == NULL) {
     return NULL;
   }
@@ -89,11 +87,9 @@ struct SumNode *sumInsert(struct SumNode *SumNode, long unsigned int sum) {
   SumNode->sumNodeHeight =
       1 + max(calcSumNodeHeight(SumNode->lft), calcSumNodeHeight(SumNode->rgt));
   int balance = getSumBalance(SumNode);
-  if (balance > 1 && sum < SumNode->lft->sum)
-    return sumRgtRotate(SumNode);
+  if (balance > 1 && sum < SumNode->lft->sum) return sumRgtRotate(SumNode);
 
-  if (balance < -1 && sum > SumNode->rgt->sum)
-    return sumLftRotate(SumNode);
+  if (balance < -1 && sum > SumNode->rgt->sum) return sumLftRotate(SumNode);
 
   if (balance > 1 && sum > SumNode->lft->sum) {
     SumNode->lft = sumLftRotate(SumNode->lft);
@@ -148,7 +144,7 @@ struct SumNode *deleteSumNode(struct SumNode *root, long unsigned int sum) {
       // children
       struct SumNode *temp = minValueSumNode(root->rgt);
       // ! must copy the values of temp to root
-      *root->listRoot = *temp->listRoot;
+      root->listRoot = temp->listRoot;
       root->sum = temp->sum;
       // will recursively call this function to delete the leftmost children of
       // the right.
@@ -166,14 +162,12 @@ struct SumNode *deleteSumNode(struct SumNode *root, long unsigned int sum) {
   root->sumNodeHeight =
       1 + max(calcSumNodeHeight(root->lft), calcSumNodeHeight(root->rgt));
   int balance = getSumBalance(root);
-  if (balance > 1 && getSumBalance(root->lft) >= 0)
-    return sumRgtRotate(root);
+  if (balance > 1 && getSumBalance(root->lft) >= 0) return sumRgtRotate(root);
   if (balance > 1 && getSumBalance(root->lft) < 0) {
     root->lft = sumLftRotate(root->lft);
     return sumRgtRotate(root);
   }
-  if (balance < -1 && getSumBalance(root->rgt) <= 0)
-    return sumLftRotate(root);
+  if (balance < -1 && getSumBalance(root->rgt) <= 0) return sumLftRotate(root);
   if (balance < -1 && getSumBalance(root->rgt) > 0) {
     root->rgt = sumRgtRotate(root->rgt);
     return sumLftRotate(root);

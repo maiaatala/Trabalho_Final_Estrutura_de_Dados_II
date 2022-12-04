@@ -1,15 +1,13 @@
 #include "essentials.h"
 
 int clustherHeight(struct ClusterNode *N) {
-  if (N == NULL)
-    return 0;
+  if (N == NULL) return 0;
   return N->clustherHeight;
 }
 
 /* returns leftHeight -rightHeight */
 int getClusterBalance(struct ClusterNode *N) {
-  if (N == NULL)
-    return 0;
+  if (N == NULL) return 0;
   return clustherHeight(N->lft) - clustherHeight(N->rgt);
 }
 
@@ -46,8 +44,8 @@ struct ClusterNode *clusterLftRotate(struct ClusterNode *x) {
   return y;
 }
 
-struct ClusterNode *
-clusterSearch(struct ClusterNode *ClusterNode, unsigned int wantedClusterSize) {
+struct ClusterNode *clusterSearch(
+    struct ClusterNode *ClusterNode, unsigned int wantedClusterSize) {
   if (ClusterNode == NULL) {
     return NULL;
   }
@@ -63,8 +61,8 @@ clusterSearch(struct ClusterNode *ClusterNode, unsigned int wantedClusterSize) {
   return ClusterNode;
 }
 
-struct ClusterNode *
-clusterInsert(struct ClusterNode *ClusterNode, unsigned int clusterSize) {
+struct ClusterNode *clusterInsert(
+    struct ClusterNode *ClusterNode, unsigned int clusterSize) {
   if (ClusterNode == NULL) {
     // empty node found, return new node
     return (newClusterNode(clusterSize));
@@ -114,8 +112,8 @@ struct ClusterNode *minValueClusterNode(struct ClusterNode *ClusterNode) {
   return current;
 }
 
-struct ClusterNode *
-deleteClusterNode(struct ClusterNode *root, unsigned int clusterSize) {
+struct ClusterNode *deleteClusterNode(
+    struct ClusterNode *root, unsigned int clusterSize) {
   if (root == NULL) {
     // tree is empty, nothing to delete
     return root;
@@ -147,7 +145,7 @@ deleteClusterNode(struct ClusterNode *root, unsigned int clusterSize) {
       // children
       struct ClusterNode *temp = minValueClusterNode(root->rgt);
       // ! must copy the values of temp to root
-      *root->sumNodeRoot = *temp->sumNodeRoot;
+      root->sumNodeRoot = temp->sumNodeRoot;
       root->clusterSize = temp->clusterSize;
       // will recursively call this function to delete the leftmost children of
       // the right.
@@ -159,7 +157,6 @@ deleteClusterNode(struct ClusterNode *root, unsigned int clusterSize) {
     // delete happened and the node is null, return as is
     return root;
   }
-
   // delete happened with the node switching palces with any of its children,
   // rebalance
   root->clustherHeight =
@@ -206,8 +203,7 @@ void clusterTreePrintInOrder(struct ClusterNode *root) {
 
 int validateClusterTree(struct ClusterNode *root) {
   if (root->lft != NULL && root->rgt != NULL) {
-    printf(
-        "f:%u lc: %u rc: %u\n", root->clusterSize, root->lft->clusterSize,
+    printf("f:%u lc: %u rc: %u\n", root->clusterSize, root->lft->clusterSize,
         root->rgt->clusterSize);
     validateClusterTree(root->lft);
     validateClusterTree(root->rgt);

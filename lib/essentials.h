@@ -6,6 +6,7 @@
 #include "sumTree.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 /* All Structs */
 
@@ -61,6 +62,7 @@ typedef enum {
   NOT_FOUND,
   TREE_IS_EMPTY,
   UNKNOWN_ERROR,
+  LIST_END,
 } statusCode;
 
 /*
@@ -72,6 +74,7 @@ static const char *error_descriptions[] = {
     [SUCCESSFUL_INSERT] = "0\n",
     [SUCCESSFUL_OPERATION] = "0\n",
     [OPERATION_END] = "0\n",
+    [LIST_END] = "\n",
     [NOT_FOUND] = "E\n",
     [INSERT_ERROR] = "E\n",
     [VALUE_ALREADY_EXISTS] = "E\n",
@@ -93,18 +96,23 @@ returns:
 */
 struct ClusterNode *dbInsert(struct ClusterNode *clusterNode,
     unsigned int newClustersize, long unsigned int newSum,
-    unsigned int *newNumberArr);
+    unsigned int *newNumberArr, char *outFile);
+
+struct ClusterNode *dbDelete(struct ClusterNode *clusterNode,
+    unsigned int toDeleteClusterSize, long unsigned int toDeleteSum,
+    unsigned int *toDeleteArr, char *outFile);
 
 /*
 Prints all the sets in order of smallest -> bigger
 requires Main Tree root pointer.
 */
-void dbSelectInOrder(struct ClusterNode *clusterRoot);
+void dbSelectInOrder(struct ClusterNode *clusterRoot, char *outFile);
 
-struct ClusterNode *dbDelete(struct ClusterNode *clusterNode,
-    unsigned int newClustersize, long unsigned int newSum,
-    unsigned int *newNumberArr);
+void dbSelect(struct ClusterNode *clusterNode, unsigned int selectedClusterSize,
+    long unsigned int selectedSum, unsigned int *selectedArr, char *outFile);
 
+void statusToFile(char *outFile, statusCode STATUS_DATA);
+void numberToFile(char *outFile, unsigned int number);
 // print do main menu
 
 // switch case do main menu, +, -, =, *, <, >
