@@ -62,13 +62,38 @@ struct ClusterNode *dbInsert(struct ClusterNode *clusterNode,
   return clusterNode;
 }
 
+void auxPrintArr(
+    unsigned int *numberArr, unsigned int clusterSize, char *outFile) {
+  unsigned int i;
+  FILE *fp = fopen(outFile, "a");
+  if (fp == NULL) {
+    printf("error writing output data\n");
+    exit(1);
+  }
+  for (i = 0; i < clusterSize; i++) {
+    fprintf(fp, "%u ", numberArr[i]);
+    // printf("  %u", numberArr[i]);
+  }
+  fprintf(fp, "\n");
+  fclose(fp);
+}
+
+void auxPrintAllList(
+    struct ListNode *listRoot, unsigned int clusterSize, char *outFile) {
+  if (listRoot != NULL) {
+    auxPrintArr(listRoot->listArr, clusterSize, outFile);
+    // printf(",");
+    auxPrintAllList(listRoot->nxt, clusterSize, outFile);
+  }
+}
+
 /* Iterates through the Secondary Tree in order */
 void auxSumPrintInOrder(
     struct SumNode *sumRoot, unsigned int clusterSize, char *outFile) {
   if (sumRoot != NULL) {
     auxSumPrintInOrder(sumRoot->lft, clusterSize, outFile);
     // printf("sum: %lu -> [", sumRoot->sum);
-    printAllList(sumRoot->listRoot, clusterSize, outFile);
+    auxPrintAllList(sumRoot->listRoot, clusterSize, outFile);
     // printf("]  ");
     auxSumPrintInOrder(sumRoot->rgt, clusterSize, outFile);
   }
