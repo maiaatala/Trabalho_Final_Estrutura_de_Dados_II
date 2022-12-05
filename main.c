@@ -9,7 +9,7 @@ void startProgram(char *inFile, char *outFile) {
 
   FILE *fp = fopen(inFile, "r");
   if (fp == NULL) {
-    printf("Erro: não foi possível abrir o arquivo %s", inFile);
+    printf("Not possible to open file %s", inFile);
     return;
   }
 
@@ -41,6 +41,10 @@ void startProgram(char *inFile, char *outFile) {
       numberArr = (unsigned int *)malloc(sizeof(unsigned int) * clusterSize);
       sum = 0;
       for (i = 0; i < clusterSize; i++) {
+        if (token == NULL) {
+          printf("line size Too small\n");
+          exit(1);
+        }
         numberArr[i] = strtoul(token, NULL, 10);
         // printf("%u \t", numberArr[i]);
         sum += numberArr[i];
@@ -58,6 +62,10 @@ void startProgram(char *inFile, char *outFile) {
       numberArr = malloc(sizeof(unsigned int) * clusterSize);
       sum = 0;
       for (i = 0; i < clusterSize; i++) {
+        if (token == NULL) {
+          printf("line size Too small\n");
+          exit(1);
+        }
         numberArr[i] = strtoul(token, NULL, 10);
         token = strtok(NULL, " "); // next char
         // printf("%u \t", numberArr[i]);
@@ -74,6 +82,10 @@ void startProgram(char *inFile, char *outFile) {
       numberArr = malloc(sizeof(unsigned int) * clusterSize);
       sum = 0;
       for (i = 0; i < clusterSize; i++) {
+        if (token == NULL) {
+          printf("line size Too small\n");
+          exit(1);
+        }
         numberArr[i] = strtoul(token, NULL, 10);
         token = strtok(NULL, " "); // next char
         // printf("%u \t", numberArr[i]);
@@ -90,6 +102,7 @@ void startProgram(char *inFile, char *outFile) {
       break;
 
     case '0':
+      fclose(fp);
       return;
       break;
 
@@ -97,8 +110,6 @@ void startProgram(char *inFile, char *outFile) {
       continue;
       break;
     }
-
-    // printf("end of line\n");
   }
 
   fclose(fp);
@@ -106,7 +117,7 @@ void startProgram(char *inFile, char *outFile) {
 
 int main(int argc, char **argv) {
   if (argc != 3) {
-    printf("Rode o programa no cmd com: ./main [arq_entrada] [arq_saida]\n");
+    printf("Execute with: ./main [entry_file] [output_file]\n");
     return 1;
   }
 
@@ -117,7 +128,7 @@ int main(int argc, char **argv) {
 
   if (!(fInput = fopen(argv[1], "a+")) || (!(fOutput = fopen(argv[2], "a+")))) {
     /* retorna erro caso arquivo de entrada ou de saida nao existam */
-    printf("Erro ao abrir o arquivo!");
+    printf("Error when trying to open the file\n");
     exit(1);
   }
   fclose(fInput);
